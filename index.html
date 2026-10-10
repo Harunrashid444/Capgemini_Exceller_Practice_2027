@@ -131,8 +131,8 @@ a{color:var(--accent)}
 
 <div class="wrap">
 <nav class="rail" id="rail" aria-label="Sections">
-  <p class="brand">Exceller Day Playbook<small>Capgemini Exceller · stages 2–5 · 12 Oct 2026</small></p>
-  <div class="countdown" id="countdown">Exam day: Mon 12 Oct</div>
+  <p class="brand">Exceller Day Playbook<small>Capgemini Exceller · stages 2–5</small></p>
+  <div class="countdown">Stages 2–5 run on the same day</div>
 </nav>
 
 <main id="main">
@@ -140,7 +140,7 @@ a{color:var(--accent)}
 <!-- ============ PLAN ============ -->
 <section class="stage" id="plan" data-title="Game plan">
 <p class="eyebrow">Start here</p>
-<h1>What you face on 12 October</h1>
+<h1>What you face on exam day</h1>
 <p class="lede">You've cleared English Communication. The remaining four online stages run back to back on one day, and each one eliminates. This page is your notes, question bank and drills for all of them. Progress saves in this browser.</p>
 
 <div class="tbl"><table>
@@ -155,18 +155,18 @@ a{color:var(--accent)}
 
 <div class="note"><b>About "previous year questions".</b> Capgemini doesn't publish papers, and nobody has posted verbatim 2026 questions publicly. Two candidate reports from this season (29 Sep and 5 Oct 2026) describe what happened. The debugging task was a small failing function, one of them a <i>syntax error</i>. The AI-assisted task worked best when the candidate gave the assistant the problem statement, the approach, constraints and the expected output. Prep sites have also published practice sets "built from 2026 questions". Items tagged <span class="chip rep">reported theme</span> match those reported topics. Everything else is high-probability practice.</div>
 
-<h2>Your two days</h2>
+<h2>Two-day plan before the exam</h2>
 <div class="tbl"><table class="sched">
 <thead><tr><th>When</th><th>Do this</th><th>Tab</th></tr></thead>
 <tbody>
-<tr><td>Sat 10 · evening</td><td>Read AI Literacy notes, then do all its MCQs. Re-read every explanation you got wrong.</td><td>AI Literacy</td></tr>
-<tr><td>Sat 10 · night</td><td>Situational: read the 6 rules, do all scenarios (≈30 min).</td><td>Situational</td></tr>
-<tr><td>Sun 11 · morning</td><td>Technical + reasoning MCQs. Trace every pseudocode question on paper.</td><td>Problem Solving</td></tr>
-<tr><td>Sun 11 · midday</td><td>Debugging: learn the checklist, then solve 15+ problems with a 10-minute timer each. Start with the reported themes.</td><td>Debugging</td></tr>
-<tr><td>Sun 11 · afternoon</td><td>AI-assisted: memorise the prompt template. Practise 4–5 tasks end to end in ChatGPT/Claude exactly as you'd do in the exam.</td><td>AI-assisted</td></tr>
-<tr><td>Sun 11 · evening</td><td>Cognitive drills + behavioural rules. Skim interview answers.</td><td>Cognitive, Interview</td></tr>
-<tr><td>Sun 11 · night</td><td>Cheat sheet once. Sleep 7+ hours. Your reaction time in the games depends on it.</td><td>Cheat sheet</td></tr>
-<tr><td>Mon 12 · morning</td><td>Cheat sheet again. Check your setup (below).</td><td>—</td></tr>
+<tr><td>Day 1 · evening</td><td>Read AI Literacy notes, then do all its MCQs. Re-read every explanation you got wrong.</td><td>AI Literacy</td></tr>
+<tr><td>Day 1 · night</td><td>Situational: read the 6 rules, do all scenarios (≈30 min).</td><td>Situational</td></tr>
+<tr><td>Day 2 · morning</td><td>Technical + reasoning MCQs. Trace every pseudocode question on paper.</td><td>Problem Solving</td></tr>
+<tr><td>Day 2 · midday</td><td>Debugging: learn the checklist, then solve 15+ problems with a 10-minute timer each. Start with the reported themes.</td><td>Debugging</td></tr>
+<tr><td>Day 2 · afternoon</td><td>AI-assisted: memorise the prompt template. Practise 4–5 tasks end to end in ChatGPT/Claude exactly as you'd do in the exam.</td><td>AI-assisted</td></tr>
+<tr><td>Day 2 · evening</td><td>Cognitive drills + behavioural rules. Skim interview answers.</td><td>Cognitive, Interview</td></tr>
+<tr><td>Day 2 · night</td><td>Cheat sheet once. Sleep 7+ hours. Your reaction time in the games depends on it.</td><td>Cheat sheet</td></tr>
+<tr><td>Exam morning</td><td>Cheat sheet again. Check your setup (below).</td><td>—</td></tr>
 </tbody></table></div>
 
 <h2>Exam-day setup</h2>
@@ -514,7 +514,7 @@ After the code, list the test cases you would run with expected outputs.</pre>
 
 <!-- ============ CHEAT SHEET ============ -->
 <section class="stage" id="cheat" data-title="Cheat sheet">
-<p class="eyebrow">Read on the morning of the 12th</p>
+<p class="eyebrow">Read on exam morning</p>
 <h1>Last-look cheat sheet</h1>
 <div class="grid2">
 <div class="card"><h3>AI Literacy</h3><ul>
@@ -1575,14 +1575,6 @@ document.getElementById("copyTpl").addEventListener("click", () => {
     if (input.length === seq.length) { accepting = false; len = Math.min(len + 1, 9); status.textContent = "Perfect. Next sequence length: " + len; }
   }
   start.addEventListener("click", run);
-})();
-
-/* ================= COUNTDOWN ================= */
-(function(){
-  const el = document.getElementById("countdown");
-  const exam = new Date(2026, 9, 12), now = new Date();
-  const days = Math.ceil((exam - new Date(now.getFullYear(), now.getMonth(), now.getDate())) / 86400000);
-  el.textContent = days > 1 ? days + " days to exam · Mon 12 Oct" : days === 1 ? "Exam tomorrow · Mon 12 Oct" : days === 0 ? "Exam day. You've got this." : "Exam: Mon 12 Oct 2026";
 })();
 
 /* ================= INIT ================= */
