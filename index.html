@@ -68,7 +68,6 @@ td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:n
 .card ul{margin:6px 0 0;padding-left:18px}
 .card li{margin:3px 0}
 .chip{display:inline-block;font-family:var(--f-mono);font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
-.chip.rep{border-color:var(--warn);color:var(--warn);background:var(--warn-soft)}
 .chip.lang{border-color:var(--accent);color:var(--accent)}
 .chip.done{border-color:var(--good);color:var(--good);background:var(--good-soft)}
 .btn{all:unset;cursor:pointer;font-size:13.5px;font-weight:600;padding:7px 14px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
@@ -160,7 +159,7 @@ a{color:var(--accent)}
 <tr><td>Day 1 · evening</td><td>Read AI Literacy notes, then do all its MCQs. Re-read every explanation you got wrong.</td><td>AI Literacy</td></tr>
 <tr><td>Day 1 · night</td><td>Situational: read the 6 rules, do all scenarios (≈30 min).</td><td>Situational</td></tr>
 <tr><td>Day 2 · morning</td><td>Technical + reasoning MCQs. Trace every pseudocode question on paper.</td><td>Problem Solving</td></tr>
-<tr><td>Day 2 · midday</td><td>Debugging: learn the checklist, then solve 15+ problems with a 10-minute timer each. Start with the reported themes.</td><td>Debugging</td></tr>
+<tr><td>Day 2 · midday</td><td>Debugging: learn the checklist, then solve 15+ problems with a 10-minute timer each.</td><td>Debugging</td></tr>
 <tr><td>Day 2 · afternoon</td><td>AI-assisted: memorise the prompt template. Practise 4–5 tasks end to end in ChatGPT/Claude exactly as you'd do in the exam.</td><td>AI-assisted</td></tr>
 <tr><td>Day 2 · evening</td><td>Cognitive drills + behavioural rules. Skim interview answers.</td><td>Cognitive, Interview</td></tr>
 <tr><td>Day 2 · night</td><td>Cheat sheet once. Sleep 7+ hours. Your reaction time in the games depends on it.</td><td>Cheat sheet</td></tr>
@@ -695,7 +694,7 @@ const COG = [
 ];
 
 const DEBUG = [
-{n:"Binary search returns wrong index or loops forever",l:"Java",rep:true,task:"Return the index of key in a sorted array, or -1.",code:`static int binarySearch(int[] arr, int key) {
+{n:"Binary search returns wrong index or loops forever",l:"Java",task:"Return the index of key in a sorted array, or -1.",code:`static int binarySearch(int[] arr, int key) {
     int low = 0, high = arr.length;
     while (low < high) {
         int mid = (low + high) / 2;
@@ -714,7 +713,7 @@ const DEBUG = [
     }
     return -1;
 }`},
-{n:"Second largest element",l:"C",rep:true,task:"Print the second largest distinct value, or -1 if none. Input: n, then n integers (may be negative).",code:`#include <stdio.h>
+{n:"Second largest element",l:"C",task:"Print the second largest distinct value, or -1 if none. Input: n, then n integers (may be negative).",code:`#include <stdio.h>
 int main() {
     int n, i;
     scanf("%d", &n);
@@ -750,7 +749,7 @@ int main() {
     printf("%d", second == INT_MIN ? -1 : second);
     return 0;
 }`},
-{n:"Row with maximum sum (2D)",l:"C++",rep:true,task:"Return the index of the FIRST row with the largest row sum.",code:`int maxSumRow(vector<vector<int>>& m) {
+{n:"Row with maximum sum (2D)",l:"C++",task:"Return the index of the FIRST row with the largest row sum.",code:`int maxSumRow(vector<vector<int>>& m) {
     int best = INT_MIN, bestRow = -1, sum = 0;
     for (int i = 0; i < m.size(); i++) {
         for (int j = 0; j < m[i].size(); j++)
@@ -774,7 +773,7 @@ int main() {
     }
     return bestRow;
 }`},
-{n:"First and last occurrence",l:"Java",rep:true,task:"Return {first, last} index of x in the array, or {-1, -1}.",code:`static int[] firstLast(int[] a, int x) {
+{n:"First and last occurrence",l:"Java",task:"Return {first, last} index of x in the array, or {-1, -1}.",code:`static int[] firstLast(int[] a, int x) {
     int first = -1, last = -1;
     for (int i = 0; i <= a.length; i++) {
         if (a[i] != x) {
@@ -793,7 +792,7 @@ int main() {
     }
     return new int[]{first, last};
 }`},
-{n:"Bubble sort in descending order",l:"C",rep:true,task:"Sort the array in descending order in place.",code:`void sortDesc(int a[], int n) {
+{n:"Bubble sort in descending order",l:"C",task:"Sort the array in descending order in place.",code:`void sortDesc(int a[], int n) {
     for (int i = 0; i < n - 1; i++) {
         for (int j = 0; j < n - i; j++) {
             if (a[j] < a[j + 1]) {
@@ -813,7 +812,7 @@ int main() {
         }
     }
 }`},
-{n:"Balanced brackets with an array stack",l:"C++",rep:true,task:"Return true if (), {}, [] are balanced.",code:`bool isBalanced(string s) {
+{n:"Balanced brackets with an array stack",l:"C++",task:"Return true if (), {}, [] are balanced.",code:`bool isBalanced(string s) {
     char st[1000];
     int top = -1;
     for (char c : s) {
@@ -845,7 +844,7 @@ int main() {
     }
     return top == -1;
 }`},
-{n:"Syntax repair: count a character",l:"Java",rep:true,task:"Print how many times 'a' occurs in \"capgemini\". The candidate report of 29 Sep 2026 mentions a syntax-error task like this.",code:`public class Main {
+{n:"Syntax repair: count a character",l:"Java",task:"Print how many times 'a' occurs in \"capgemini\".",code:`public class Main {
     public static void main(String[] args) {
         String s = "capgemini"
         int count = 0;
@@ -863,7 +862,7 @@ int main() {
         System.out.println("Count: " + count);
     }
 }`},
-{n:"Syntax and logic: bank account class",l:"C++",rep:true,task:"Withdrawals larger than the balance must be rejected. Expected output: \"Insufficient funds\" then 500.",code:`#include <iostream>
+{n:"Syntax and logic: bank account class",l:"C++",task:"Withdrawals larger than the balance must be rejected. Expected output: \"Insufficient funds\" then 500.",code:`#include <iostream>
 using namespace std;
 class Account {
     int balance;
@@ -1133,7 +1132,7 @@ System.out.println(list);   // [1, 3, 5]`},
     if (root == null) return 0;
     return 1 + Math.max(height(root.left), height(root.right));
 }`},
-{n:"Grid shortest path (BFS)",l:"C++",rep:true,task:"0 = open, 1 = wall. Return the minimum steps from (0,0) to (r-1,c-1), or -1. (Trees and graphs are a reported debugging topic.)",code:`int shortestPath(vector<vector<int>>& g) {
+{n:"Grid shortest path (BFS)",l:"C++",task:"0 = open, 1 = wall. Return the minimum steps from (0,0) to (r-1,c-1), or -1.",code:`int shortestPath(vector<vector<int>>& g) {
     int r = g.size(), c = g[0].size();
     vector<vector<int>> dist(r, vector<int>(c, -1));
     queue<pair<int,int>> q;
@@ -1172,7 +1171,7 @@ System.out.println(list);   // [1, 3, 5]`},
     }
     return dist[r-1][c-1];
 }`},
-{n:"Unique grid paths (2D DP)",l:"Java",rep:true,task:"Count paths from top-left to bottom-right moving only right or down. (2D DP is a reported topic.)",code:`static int uniquePaths(int m, int n) {
+{n:"Unique grid paths (2D DP)",l:"Java",task:"Count paths from top-left to bottom-right moving only right or down.",code:`static int uniquePaths(int m, int n) {
     int[][] dp = new int[m][n];
     for (int i = 1; i < m; i++)
         for (int j = 1; j < n; j++)
@@ -1204,7 +1203,7 @@ System.out.println(list);   // [1, 3, 5]`},
 ];
 
 const TASKS = [
-{n:"Longest substring without repeating characters",rep:true,s:"Given a string, return the length of the longest substring with all distinct characters.",tests:"\"abcabcbb\" → 3 · \"bbbbb\" → 1 · \"pwwkew\" → 3 · \"\" → 0 · \"abba\" → 2",plan:"Sliding window: store the last index of each char. When the current char was seen inside the window, move left to lastIndex + 1. Track the max window. O(n) time.",traps:"\"abba\": left must never move backwards, so only jump when last[c] >= left. Using a HashSet with a remove loop is fine too.",sol:`static int longestUnique(String s) {
+{n:"Longest substring without repeating characters",s:"Given a string, return the length of the longest substring with all distinct characters.",tests:"\"abcabcbb\" → 3 · \"bbbbb\" → 1 · \"pwwkew\" → 3 · \"\" → 0 · \"abba\" → 2",plan:"Sliding window: store the last index of each char. When the current char was seen inside the window, move left to lastIndex + 1. Track the max window. O(n) time.",traps:"\"abba\": left must never move backwards, so only jump when last[c] >= left. Using a HashSet with a remove loop is fine too.",sol:`static int longestUnique(String s) {
     Map<Character, Integer> last = new HashMap<>();
     int best = 0, left = 0;
     for (int r = 0; r < s.length(); r++) {
@@ -1216,13 +1215,13 @@ const TASKS = [
     }
     return best;
 }`},
-{n:"First repeating element",rep:true,s:"Return the first value whose second occurrence appears earliest while scanning left to right; -1 if all are unique.",tests:"[4,2,4,2] → 4 · [1,2,3] → -1 · [7,7] → 7 · [] → -1",plan:"HashSet. Scan left to right. The first value that fails to add is the answer. O(n).",traps:"Don't return the smallest duplicate. Clarify the variant: \"first element whose value repeats anywhere later\" gives 2 for [2,4,4,2]. That version needs counts first, then a second scan.",sol:`static int firstRepeat(int[] a) {
+{n:"First repeating element",s:"Return the first value whose second occurrence appears earliest while scanning left to right; -1 if all are unique.",tests:"[4,2,4,2] → 4 · [1,2,3] → -1 · [7,7] → 7 · [] → -1",plan:"HashSet. Scan left to right. The first value that fails to add is the answer. O(n).",traps:"Don't return the smallest duplicate. Clarify the variant: \"first element whose value repeats anywhere later\" gives 2 for [2,4,4,2]. That version needs counts first, then a second scan.",sol:`static int firstRepeat(int[] a) {
     Set<Integer> seen = new HashSet<>();
     for (int x : a)
         if (!seen.add(x)) return x;
     return -1;
 }`},
-{n:"Move all '#' to the front",rep:true,s:"Move every '#' to the start of the string, keeping the order of the other characters.",tests:"\"Move#Hash#to#Front\" → \"###MoveHashtoFront\" · \"abc\" → \"abc\" · \"##\" → \"##\"",plan:"Two StringBuilders: one for hashes, one for the rest. Concatenate. O(n).",traps:"Keep the relative order of non-# characters. Read the whole line with nextLine() since there can be spaces.",sol:`static String moveHash(String s) {
+{n:"Move all '#' to the front",s:"Move every '#' to the start of the string, keeping the order of the other characters.",tests:"\"Move#Hash#to#Front\" → \"###MoveHashtoFront\" · \"abc\" → \"abc\" · \"##\" → \"##\"",plan:"Two StringBuilders: one for hashes, one for the rest. Concatenate. O(n).",traps:"Keep the relative order of non-# characters. Read the whole line with nextLine() since there can be spaces.",sol:`static String moveHash(String s) {
     StringBuilder hashes = new StringBuilder();
     StringBuilder rest = new StringBuilder();
     for (char c : s.toCharArray()) {
@@ -1231,7 +1230,7 @@ const TASKS = [
     }
     return hashes.append(rest).toString();
 }`},
-{n:"Spiral matrix traversal",rep:true,s:"Return the elements of an m×n matrix in clockwise spiral order.",tests:"[[1,2,3],[4,5,6],[7,8,9]] → 1 2 3 6 9 8 7 4 5 · single row [[1,2,3]] → 1 2 3 · single column → top to bottom",plan:"Four boundaries (top, bottom, left, right). Walk each side and shrink. Guard the bottom and left walks.",traps:"For a single row or column the AI often prints elements twice. Check the if (top <= bottom) and if (left <= right) guards.",sol:`static List<Integer> spiral(int[][] m) {
+{n:"Spiral matrix traversal",s:"Return the elements of an m×n matrix in clockwise spiral order.",tests:"[[1,2,3],[4,5,6],[7,8,9]] → 1 2 3 6 9 8 7 4 5 · single row [[1,2,3]] → 1 2 3 · single column → top to bottom",plan:"Four boundaries (top, bottom, left, right). Walk each side and shrink. Guard the bottom and left walks.",traps:"For a single row or column the AI often prints elements twice. Check the if (top <= bottom) and if (left <= right) guards.",sol:`static List<Integer> spiral(int[][] m) {
     List<Integer> out = new ArrayList<>();
     if (m.length == 0) return out;
     int top = 0, bottom = m.length - 1, left = 0, right = m[0].length - 1;
@@ -1251,7 +1250,7 @@ const TASKS = [
     }
     return out;
 }`},
-{n:"Count occurrences of each element",rep:true,s:"Print each distinct element and its count, in order of first appearance.",tests:"[1,2,2,3,1,1] → 1 3 / 2 2 / 3 1 · [] → nothing",plan:"LinkedHashMap with getOrDefault. O(n).",traps:"HashMap loses order. Make sure the output format (separator, line breaks) matches exactly.",sol:`static void counts(int[] a) {
+{n:"Count occurrences of each element",s:"Print each distinct element and its count, in order of first appearance.",tests:"[1,2,2,3,1,1] → 1 3 / 2 2 / 3 1 · [] → nothing",plan:"LinkedHashMap with getOrDefault. O(n).",traps:"HashMap loses order. Make sure the output format (separator, line breaks) matches exactly.",sol:`static void counts(int[] a) {
     Map<Integer, Integer> map = new LinkedHashMap<>();
     for (int x : a) map.put(x, map.getOrDefault(x, 0) + 1);
     for (Map.Entry<Integer, Integer> e : map.entrySet())
@@ -1478,7 +1477,7 @@ document.querySelectorAll("[data-quiz-host]").forEach(buildQuiz);
 /* ================= DEBUG ================= */
 (function(){
   const host = document.getElementById("dbgHost"), fh = document.getElementById("dbgFilters");
-  const filters = ["All", "Reported themes", "Java", "C", "C++", "Unsolved"];
+  const filters = ["All", "Java", "C", "C++", "Unsolved"];
   let cur = "All";
   filters.forEach(f => {
     const b = document.createElement("button"); b.className = "btn"; b.textContent = f; b.setAttribute("aria-pressed", f === cur);
@@ -1491,7 +1490,6 @@ document.querySelectorAll("[data-quiz-host]").forEach(buildQuiz);
     const h = document.createElement("h3"); h.textContent = "D" + (i + 1) + " · " + d.n;
     const lang = document.createElement("span"); lang.className = "chip lang"; lang.textContent = d.l;
     head.append(h, lang);
-    if (d.rep) { const r = document.createElement("span"); r.className = "chip rep"; r.textContent = "reported theme"; head.appendChild(r); }
     const lab = document.createElement("label"); lab.className = "check";
     const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = "dbg-" + i; cb.checked = !!state.dbg[i];
     cb.addEventListener("change", () => { state.dbg[i] = cb.checked; save(); apply(); });
@@ -1509,7 +1507,7 @@ document.querySelectorAll("[data-quiz-host]").forEach(buildQuiz);
   function apply(){
     host.querySelectorAll(".dbg").forEach(el => {
       const d = DEBUG[el.dataset.i];
-      let ok = cur === "All" || (cur === "Reported themes" && d.rep) || d.l === cur || (cur === "Unsolved" && !state.dbg[el.dataset.i]);
+      let ok = cur === "All" || d.l === cur || (cur === "Unsolved" && !state.dbg[el.dataset.i]);
       el.hidden = !ok;
     });
   }
@@ -1522,7 +1520,6 @@ document.querySelectorAll("[data-quiz-host]").forEach(buildQuiz);
     const el = document.createElement("article"); el.className = "dbg";
     const head = document.createElement("div"); head.className = "head";
     const h = document.createElement("h3"); h.textContent = "T" + (i + 1) + " · " + t.n; head.appendChild(h);
-    if (t.rep) { const r = document.createElement("span"); r.className = "chip rep"; r.textContent = "reported theme"; head.appendChild(r); }
     const lab = document.createElement("label"); lab.className = "check";
     const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = "task-" + i; cb.checked = !!state.task[i];
     cb.addEventListener("change", () => { state.task[i] = cb.checked; save(); });
