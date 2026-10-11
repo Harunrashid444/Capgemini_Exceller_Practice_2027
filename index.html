@@ -840,6 +840,140 @@ SELECT e.name FROM emp e LEFT JOIN dept d ON e.dept_id = d.id WHERE d.id IS NULL
 <li>Missing empty or null check before pop/access</li></ul></div>
 </div>
 
+<h2>Deep notes: diagnose from the symptom</h2>
+<p class="lede">When you run the sample input and the output is wrong, the kind of wrongness points to the bug. Find your symptom in this table.</p>
+<div class="tbl tight"><table>
+<thead><tr><th>Symptom</th><th>Look for</th></tr></thead>
+<tbody>
+<tr><td>Last element missing, or one extra</td><td><code>&lt;</code> vs <code>&lt;=</code>, <code>n</code> vs <code>n-1</code>, loop starting at 1 instead of 0</td></tr>
+<tr><td>Crash at the end of an array or string</td><td><code>i &lt;= length</code>, <code>a[i+1]</code>, <code>s[len-i]</code></td></tr>
+<tr><td>Infinite loop or time-out</td><td>Loop variable never updated, <code>low = mid</code>, <code>i--</code> where <code>i++</code> was meant, missing visited check</td></tr>
+<tr><td>Always 0 (or always the same value)</td><td>Accumulator reset inside the loop, product started at 0, int division, wrong variable returned</td></tr>
+<tr><td>Garbage or random numbers (C/C++)</td><td>Uninitialised variable, reading past an array</td></tr>
+<tr><td>Wrong only for negative input</td><td>max/min started at 0, <code>while (n &gt; 0)</code> with negative n, sign of <code>%</code></td></tr>
+<tr><td>Wrong only with duplicates or ties</td><td><code>&gt;=</code> vs <code>&gt;</code>, missing <code>!= first</code> check</td></tr>
+<tr><td>Wrong or crashes on empty or single input</td><td>Missing <code>n == 0</code> or <code>n == 1</code> guard, <code>a[0]</code> on an empty array</td></tr>
+<tr><td>Wrong only for large input</td><td>Overflow: use <code>long</code> / <code>long long</code>, <code>mid = low + (high-low)/2</code></td></tr>
+<tr><td>Every item counted or condition always true</td><td><code>=</code> instead of <code>==</code>, a stray <code>;</code> after <code>if(...)</code>, <code>||</code> vs <code>&amp;&amp;</code></td></tr>
+<tr><td>Output unchanged after "reverse", "swap" or "transpose"</td><td>Swapping twice (loop to n instead of n/2, or inner loop not starting at i+1)</td></tr>
+<tr><td>Decimal part lost</td><td>int/int division. Cast with <code>(double)</code></td></tr>
+<tr><td>Correct but too slow</td><td>An O(n²) loop where a hash map or two pointers was intended, recursion without memoisation</td></tr>
+</tbody></table></div>
+
+<h2>Deep notes: error message decoder</h2>
+<div class="grid2">
+<div class="card"><h3>Java compile errors</h3><ul>
+<li><code>';' expected</code>: missing semicolon, usually at the end of the line <i>above</i>.</li>
+<li><code>cannot find symbol</code>: typo, undeclared variable, missing import, <code>length</code> vs <code>length()</code>.</li>
+<li><code>incompatible types: String cannot be converted to char</code>: <code>"a"</code> where <code>'a'</code> is needed.</li>
+<li><code>possible lossy conversion from double to int</code>: add a cast or change the type.</li>
+<li><code>missing return statement</code>: some path doesn't return.</li>
+<li><code>reached end of file while parsing</code>: missing <code>}</code>.</li>
+<li><code>variable might not have been initialized</code>: give it a starting value.</li>
+<li><code>unreachable statement</code>: code after <code>return</code> or <code>break</code>.</li>
+<li><code>non-static method … from a static context</code>: make it <code>static</code>, or call it on an object.</li>
+<li><code>bad operand types for binary operator</code>: e.g. <code>String &gt; int</code> or <code>&amp;&amp;</code> on ints.</li></ul></div>
+
+<div class="card"><h3>Java runtime exceptions</h3><ul>
+<li><code>ArrayIndexOutOfBoundsException</code> / <code>StringIndexOutOfBoundsException</code>: loop bound or index arithmetic.</li>
+<li><code>NullPointerException</code>: uninitialised object, <code>map.get</code> returned null.</li>
+<li><code>ArithmeticException: / by zero</code>: divide or modulo by 0. Guard it.</li>
+<li><code>StackOverflowError</code>: missing or unreachable base case.</li>
+<li><code>NumberFormatException</code>: parsing a non-number. Trim the input first.</li>
+<li><code>InputMismatchException</code>: Scanner read the wrong type. Check the input format.</li>
+<li><code>ConcurrentModificationException</code>: modifying a list inside for-each.</li>
+<li><code>ClassCastException</code>: wrong downcast.</li></ul></div>
+
+<div class="card"><h3>C / C++ errors</h3><ul>
+<li><code>expected ';' before …</code> / <code>expected ';' after class definition</code>.</li>
+<li><code>'x' was not declared in this scope</code>: typo, missing include, or the variable is used outside its block.</li>
+<li><code>invalid conversion from 'const char*' to 'char'</code>: <code>"a"</code> vs <code>'a'</code>.</li>
+<li><code>no matching function for call</code>: wrong argument types or count.</li>
+<li><code>control reaches end of non-void function</code>: missing return.</li>
+<li><code>undefined reference to …</code>: a function is declared but never defined (linker error).</li>
+<li><b>Segmentation fault</b>: out-of-bounds access, null pointer dereference, very deep recursion.</li>
+<li><b>Floating point exception</b>: integer division by zero.</li></ul></div>
+</div>
+
+<h2>Deep notes: correct templates to compare against</h2>
+<p class="lede">Half of all debugging tasks are a standard algorithm with one line broken. If you know the correct shape, the broken line jumps out.</p>
+<pre>// Binary search (closed range)
+int lo = 0, hi = n - 1;
+while (lo &lt;= hi) {
+    int mid = lo + (hi - lo) / 2;
+    if (a[mid] == x) return mid;
+    if (a[mid] &lt; x) lo = mid + 1; else hi = mid - 1;
+}
+return -1;
+
+// Two pointers on a sorted array: does a pair sum to target?
+int i = 0, j = n - 1;
+while (i &lt; j) {
+    int s = a[i] + a[j];
+    if (s == target) return true;
+    if (s &lt; target) i++; else j--;
+}
+
+// Sliding window: max sum of k consecutive elements
+long sum = 0, best;
+for (int i = 0; i &lt; k; i++) sum += a[i];
+best = sum;
+for (int i = k; i &lt; n; i++) { sum += a[i] - a[i - k]; best = Math.max(best, sum); }
+
+// Prefix sums: sum of a[l..r] = p[r + 1] - p[l]
+long[] p = new long[n + 1];
+for (int i = 0; i &lt; n; i++) p[i + 1] = p[i] + a[i];
+
+// Frequency count of lowercase letters
+int[] f = new int[26];
+for (char c : s.toCharArray()) f[c - 'a']++;
+
+// BFS skeleton: mark visited when you PUSH, not when you pop
+Queue&lt;Integer&gt; q = new ArrayDeque&lt;&gt;();
+q.add(src); seen[src] = true;
+while (!q.isEmpty()) {
+    int u = q.poll();
+    for (int v : adj.get(u)) if (!seen[v]) { seen[v] = true; q.add(v); }
+}
+
+// Swap with a temp variable
+int t = a[i]; a[i] = a[j]; a[j] = t;</pre>
+
+<div class="grid2">
+<div class="card"><h3>Input reading templates</h3>
+<pre>// Java
+Scanner sc = new Scanner(System.in);
+int n = sc.nextInt();
+int[] a = new int[n];
+for (int i = 0; i &lt; n; i++) a[i] = sc.nextInt();
+sc.nextLine();               // eat the leftover newline
+String line = sc.nextLine(); // a full line with spaces
+
+// C++
+ios::sync_with_stdio(false); cin.tie(nullptr);
+int n; cin &gt;&gt; n;
+vector&lt;int&gt; a(n);
+for (auto &amp;x : a) cin &gt;&gt; x;
+string line; getline(cin &gt;&gt; ws, line);</pre></div>
+
+<div class="card"><h3>Edge-case checklist (test before submitting)</h3><ul>
+<li>Empty input: n = 0, ""</li>
+<li>A single element</li>
+<li>All elements equal, or all duplicates</li>
+<li>Negatives and zero</li>
+<li>Already sorted and reverse sorted</li>
+<li>Target at the first or last index, or not present</li>
+<li>Maximum values (overflow)</li>
+<li>Strings with spaces, uppercase, odd and even length</li></ul></div>
+
+<div class="card"><h3>Rules of the round</h3><ul>
+<li><b>Minimal change</b>: fix the bug, don't rewrite the program. A rewrite can break hidden tests that depend on the exact output format.</li>
+<li>Don't change the function signature, class name or output format.</li>
+<li>Remove any debug prints before you submit.</li>
+<li>Where there's one bug there's often a second. Keep checking after the first fix.</li>
+<li><b>20-minute plan</b>: read and understand (3) → compile pass (2) → boundary and logic passes (8) → test edge cases (5) → submit (2).</li></ul></div>
+</div>
+
 <h2>Problems</h2>
 <div class="filters" id="dbgFilters"></div>
 <div id="dbgHost"></div>
