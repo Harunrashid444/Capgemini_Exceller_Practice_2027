@@ -63,6 +63,9 @@ th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--line);vert
 th{font-weight:600;font-size:12.5px;color:var(--muted);letter-spacing:.03em;text-transform:uppercase}
 tr:last-child td{border-bottom:none}
 td.num{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.tbl.tight th,.tbl.tight td{padding:7px 11px}
+h3+.tbl{margin-top:8px}
+.card .tbl td{padding:6px 8px}
 .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;min-width:0}
 .card ul{margin:6px 0 0;padding-left:18px}
@@ -246,6 +249,121 @@ a{color:var(--accent)}
 <li>Good uses: boilerplate, explaining errors, writing tests, refactoring, docs.</li>
 <li>Risks: insecure code, invented APIs, licence or IP issues, leaked secrets.</li>
 <li>Verify before you trust, and never commit code you can't explain.</li></ul></div>
+</div>
+
+<h2>Deep notes: how the questions are built</h2>
+<p class="lede">Most AI Literacy questions are a short scenario with one giveaway phrase. Match the phrase and you have the answer in about 10 seconds.</p>
+
+<h3>Scenario keyword → answer</h3>
+<div class="tbl tight"><table>
+<thead><tr><th>If the scenario says…</th><th>The answer is…</th></tr></thead>
+<tbody>
+<tr><td>"confidently", "cited a source that doesn't exist", "made up"</td><td><b>Hallucination</b>. Fix: grounding/RAG, verification, citations</td></tr>
+<tr><td>"recent event", "last month's release", "outdated answer"</td><td><b>Knowledge cutoff</b>. Fix: RAG or a search tool</td></tr>
+<tr><td>"unfair to a group", "favours men", "worse for regional names"</td><td><b>Bias from training data</b>. Fix: balanced data, fairness testing, human review</td></tr>
+<tr><td>"forgot what I said earlier in a long chat"</td><td><b>Context window limit</b></td></tr>
+<tr><td>"same prompt, different answers each time"</td><td><b>Non-determinism / sampling (temperature)</b></td></tr>
+<tr><td>"answer stopped mid-sentence"</td><td><b>Max output tokens</b> too low</td></tr>
+<tr><td>"document contained hidden instructions", "ignore previous instructions"</td><td><b>Prompt injection</b></td></tr>
+<tr><td>"answer from our company's documents", "latest policies"</td><td><b>RAG</b></td></tr>
+<tr><td>"always reply in our brand tone or format", "specialised style"</td><td><b>Fine-tuning</b> (or a strong system prompt)</td></tr>
+<tr><td>"gave a few examples in the prompt"</td><td><b>Few-shot</b> prompting</td></tr>
+<tr><td>"asked it to reason step by step"</td><td><b>Chain-of-thought</b></td></tr>
+<tr><td>"books flights, calls APIs, completes the task on its own"</td><td><b>AI agent</b> (tool use + planning)</td></tr>
+<tr><td>"accuracy dropping months after deployment"</td><td><b>Model / data drift</b>. Monitor and retrain</td></tr>
+<tr><td>"99% on training data, poor on new data"</td><td><b>Overfitting</b></td></tr>
+<tr><td>"pasted client data into a public chatbot"</td><td><b>Privacy / confidentiality breach</b>. Use approved tools, anonymise</td></tr>
+<tr><td>"can't tell why the model rejected the loan"</td><td><b>Lack of explainability / transparency</b></td></tr>
+<tr><td>"fake video of a real person"</td><td><b>Deepfake</b>: consent and misinformation</td></tr>
+<tr><td>"AI code looks like a GPL project"</td><td><b>IP / licence risk</b></td></tr>
+<tr><td>"wrong maths or miscounted letters"</td><td><b>Weak exact reasoning</b> (tokenisation). Use a tool or calculator</td></tr>
+</tbody></table></div>
+
+<h3 style="margin-top:22px">Pairs they love to confuse</h3>
+<div class="tbl tight"><table>
+<thead><tr><th>Term</th><th>vs</th><th>One-line difference</th></tr></thead>
+<tbody>
+<tr><td>RAG</td><td>Fine-tuning</td><td>RAG adds knowledge at query time with no retraining. Fine-tuning changes the weights to change behaviour or style.</td></tr>
+<tr><td>Precision</td><td>Recall</td><td>Precision: of the items flagged, how many were right. Recall: of the real positives, how many were caught.</td></tr>
+<tr><td>Temperature</td><td>Top-p</td><td>Temperature flattens or sharpens the probabilities. Top-p cuts the candidate pool to the top cumulative probability p.</td></tr>
+<tr><td>Token</td><td>Embedding</td><td>A token is a piece of text. An embedding is a vector of meaning.</td></tr>
+<tr><td>Hallucination</td><td>Bias</td><td>Hallucination is invented facts. Bias is systematic unfairness.</td></tr>
+<tr><td>Chatbot (LLM)</td><td>Agent</td><td>A chatbot answers. An agent plans, uses tools and acts in a loop.</td></tr>
+<tr><td>Zero-shot</td><td>Few-shot</td><td>Zero-shot has no examples. Few-shot has examples in the prompt. Neither changes the weights.</td></tr>
+<tr><td>AI</td><td>ML → DL → GenAI</td><td>Nested: AI ⊃ Machine Learning ⊃ Deep Learning ⊃ Generative AI.</td></tr>
+<tr><td>Supervised</td><td>Unsupervised</td><td>Supervised uses labelled data (spam / not spam). Unsupervised finds structure (customer segments).</td></tr>
+<tr><td>Encoder (BERT)</td><td>Decoder (GPT)</td><td>Encoders understand and classify text. Decoders generate text. Encoder-decoder models (T5) translate and summarise.</td></tr>
+<tr><td>Open-weight</td><td>Closed model</td><td>Open-weight (Llama, Mistral) can be self-hosted for privacy. Closed models (GPT, Claude, Gemini) are API-only.</td></tr>
+<tr><td>Authentication</td><td>Authorisation</td><td>Who you are vs what you're allowed to do. Agents need least-privilege authorisation.</td></tr>
+</tbody></table></div>
+
+<div class="grid2" style="margin-top:16px">
+<div class="card"><h3>Neural networks in 6 lines</h3><ul>
+<li><b>Neuron</b>: weighted sum of inputs + bias → <b>activation</b> (ReLU, sigmoid, softmax).</li>
+<li><b>Training</b>: predict → measure <b>loss</b> → <b>backpropagation</b> computes gradients → <b>gradient descent</b> updates weights.</li>
+<li><b>Epoch</b>: one full pass over the training data. <b>Learning rate</b>: the size of each update step.</li>
+<li><b>CNN</b> for images, <b>RNN/LSTM</b> for older sequence models, <b>Transformer</b> for modern language models.</li>
+<li><b>Parameters</b> are the learned weights. "70B model" means 70 billion parameters.</li>
+<li><b>Pre-training</b> (huge general data) → <b>fine-tuning</b> → <b>RLHF</b> (reinforcement learning from human feedback) aligns it to be helpful and safe.</li></ul></div>
+
+<div class="card"><h3>Prompting techniques you can be quizzed on</h3><ul>
+<li><b>Zero / one / few-shot</b>: 0, 1 or a few examples.</li>
+<li><b>Chain-of-thought</b>: show reasoning steps.</li>
+<li><b>Self-consistency</b>: sample several reasoning paths and take the majority answer.</li>
+<li><b>ReAct</b>: Reason → Act (tool call) → Observe, repeated. This is the basis of agents.</li>
+<li><b>Tree-of-thought</b>: explore multiple branches of reasoning.</li>
+<li><b>Prompt chaining</b>: the output of step 1 feeds step 2.</li>
+<li><b>Role / persona</b>, <b>delimiters</b>, <b>output schema</b> (JSON), <b>constraints</b> ("under 100 words", "don't use libraries").</li>
+<li><b>Meta-prompting</b>: ask the model to improve your prompt.</li>
+<li>Rule: <b>specific beats long</b>. Clear goal, context, format and examples.</li></ul></div>
+
+<div class="card"><h3>Reducing hallucinations</h3><ul>
+<li>Ground the model with RAG and ask it to cite which passage it used.</li>
+<li>Allow "I don't know" or "not found in the document".</li>
+<li>Lower the temperature for factual tasks.</li>
+<li>Ask for step-by-step reasoning, then verify the steps.</li>
+<li>Use tools for maths, dates and live data.</li>
+<li>Have a human review anything high-stakes. Cross-check with a second source.</li></ul></div>
+
+<div class="card"><h3>RAG one level deeper</h3><ul>
+<li><b>Chunk size</b>: too big wastes context and adds noise. Too small loses meaning. Overlapping chunks help.</li>
+<li><b>Top-k</b>: how many chunks you retrieve. <b>Re-ranking</b> re-orders them for relevance.</li>
+<li><b>Hybrid search</b> = keyword (BM25) + vector search. It's better for IDs, codes and names.</li>
+<li>Bad answer? Check whether it's a <b>retrieval failure</b> (wrong chunks) or a <b>generation failure</b> (right chunks, wrong answer).</li>
+<li>Keep the index fresh: re-embed when the documents change.</li>
+<li>Apply access control at retrieval, so users only see documents they're allowed to.</li></ul></div>
+
+<div class="card"><h3>Agents one level deeper</h3><ul>
+<li>Parts: <b>LLM (brain) + tools + memory + planning + orchestration loop</b>.</li>
+<li><b>Function / tool calling</b>: the model outputs a structured call, your code runs it, and the result goes back to the model.</li>
+<li><b>Memory</b>: short-term (the conversation) vs long-term (a vector store or profile).</li>
+<li><b>Multi-agent</b>: specialised agents (planner, coder, reviewer) collaborate.</li>
+<li><b>MCP (Model Context Protocol)</b>: an open standard for connecting models to tools and data sources.</li>
+<li>Risks: infinite loops, wrong tool, runaway cost, unsafe actions. Controls: step limits, least privilege, human approval, logging.</li></ul></div>
+
+<div class="card"><h3>Governance and law</h3><ul>
+<li><b>EU AI Act</b>: risk tiers. <i>Unacceptable</i> is banned (e.g. social scoring). <i>High</i> is regulated (hiring, credit, medical). <i>Limited</i> needs transparency (chatbots must disclose they're AI). <i>Minimal</i> is free (spam filters).</li>
+<li><b>GDPR</b> (EU) and <b>India's DPDP Act 2023</b>: consent, purpose limitation, data minimisation, right to erasure.</li>
+<li><b>Model cards / datasheets</b>: documentation of what a model or dataset is for and its limits.</li>
+<li><b>Red teaming</b>: deliberately attacking a model to find failures before release.</li>
+<li><b>Guardrails</b>: input and output filters. <b>Watermarking</b>: marking AI-generated content.</li>
+<li><b>Accountability</b>: a human or organisation stays responsible, never "the AI".</li></ul></div>
+
+<div class="card"><h3>Evaluation numbers</h3>
+<p style="margin:4px 0">100 emails, 25 are spam. The model flags 20, of which 15 are really spam.</p><ul>
+<li>TP = 15, FP = 5, FN = 10</li>
+<li>Precision = 15/20 = <b>75%</b>. Recall = 15/25 = <b>60%</b></li>
+<li>F1 = 2PR/(P+R) ≈ <b>66.7%</b></li>
+<li><b>Accuracy trap</b>: with 99% legitimate transactions, a model that always says "legit" is 99% accurate and catches zero fraud. Use recall or F1 on imbalanced data.</li>
+<li>LLM evaluation: human review, LLM-as-judge, benchmarks, groundedness and faithfulness checks.</li></ul></div>
+
+<div class="card"><h3>The model landscape</h3><ul>
+<li>Text and chat: GPT (OpenAI), Claude (Anthropic), Gemini (Google), Llama (Meta, open-weight), Mistral.</li>
+<li>Images: DALL·E, Midjourney, Stable Diffusion (diffusion models).</li>
+<li>Code assistants: GitHub Copilot, Cursor, and chat assistants in IDEs.</li>
+<li><b>SLMs</b> (small language models): cheaper, faster, can run on-device.</li>
+<li><b>Quantisation</b>: lower-precision weights give a smaller, faster model at a small cost in accuracy.</li>
+<li>Trade-offs: bigger model means better quality but higher cost and latency. Self-hosting is better for data privacy.</li></ul></div>
 </div>
 
 <h2>Practice questions</h2>
