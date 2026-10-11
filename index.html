@@ -1236,6 +1236,61 @@ YOU: All my tests pass: [2 2 2 2]-&gt;6, [1 5 7 -1]-&gt;2 with K=6, n=0 -&gt;0.
 <li><b>Conflict or failure story</b>: use STAR (Situation, Task, Action, Result).</li>
 <li><b>Questions for us?</b> Ask about training, the first project, tech stack.</li></ul></div>
 </div>
+<h2>Deep notes: model answers</h2>
+<p class="lede">Short answers you can say in 20–40 seconds. Add an example from your own projects wherever you can. Interviewers remember examples.</p>
+<div class="tbl tight"><table>
+<thead><tr><th>Question</th><th>Answer core</th></tr></thead>
+<tbody>
+<tr><td>What is OOP?</td><td>Modelling software as objects that combine data and behaviour. Four pillars: encapsulation, abstraction, inheritance, polymorphism. Give one example of each from a project.</td></tr>
+<tr><td>Abstract class vs interface?</td><td>An abstract class can have state, constructors and implemented methods, and you extend only one. An interface is a contract you can implement many of. Use an interface for a capability, an abstract class for a shared base.</td></tr>
+<tr><td>Overloading vs overriding?</td><td>Overloading: same name, different parameters, decided at compile time. Overriding: a subclass redefines an inherited method, decided at runtime.</td></tr>
+<tr><td>Why is String immutable in Java?</td><td>Security (paths, URLs), thread safety, the string pool, and cached hash codes.</td></tr>
+<tr><td>HashMap internals?</td><td>An array of buckets. The key's hash picks a bucket. Collisions go into a list, or a tree once there are more than 8 entries (Java 8). It resizes at a 0.75 load factor.</td></tr>
+<tr><td>Normalisation?</td><td>Organising tables to remove redundancy and update anomalies: 1NF, 2NF, 3NF, BCNF. Denormalise deliberately when reads are heavy.</td></tr>
+<tr><td>Primary vs unique key?</td><td>Both are unique. A primary key can't be NULL and there's one per table. A unique key allows NULL and there can be many.</td></tr>
+<tr><td>Process vs thread?</td><td>A process has its own memory. Threads share their process's memory, so they're lighter but need synchronisation.</td></tr>
+<tr><td>What is deadlock?</td><td>Processes waiting on each other forever. It needs mutual exclusion, hold-and-wait, no preemption and circular wait. Break one of them to prevent it.</td></tr>
+<tr><td>TCP vs UDP?</td><td>TCP is reliable, ordered and connection-oriented (web, email). UDP is fast with no guarantees (video calls, games, DNS).</td></tr>
+<tr><td>REST API?</td><td>Stateless HTTP interface built around resources: GET, POST, PUT, PATCH, DELETE, JSON bodies, status codes.</td></tr>
+<tr><td>What is an LLM / RAG?</td><td>A model trained to predict the next token. RAG retrieves relevant documents and adds them to the prompt so answers are grounded and current.</td></tr>
+<tr><td>How do you use AI tools responsibly?</td><td>Approved tools only, no confidential data, review and test every output, understand code before committing it, and stay accountable.</td></tr>
+<tr><td>Git merge vs rebase?</td><td>Merge keeps history and adds a merge commit. Rebase replays commits for a linear history. Don't rebase shared branches.</td></tr>
+</tbody></table></div>
+
+<div class="grid2" style="margin-top:16px">
+<div class="card"><h3>Explaining your project (2 minutes)</h3><ol style="padding-left:18px;margin:6px 0">
+<li><b>Problem</b>: who it's for and why it matters (1 line).</li>
+<li><b>Your role</b>: what you personally built.</li>
+<li><b>Stack and architecture</b>: frontend → backend → database, and why those choices.</li>
+<li><b>One hard problem</b> and how you solved it. This is where you score.</li>
+<li><b>Result</b>: numbers if possible (users, speed, accuracy).</li>
+<li><b>What you'd improve</b> next. It shows maturity.</li></ol>
+<p style="font-size:13.5px;color:var(--muted);margin:6px 0 0">Expect follow-ups on every technology you name. Don't list one you can't explain.</p></div>
+
+<div class="card"><h3>Tricky HR questions</h3><ul>
+<li><b>Why should we hire you?</b> Skills that match the role, plus proof from a project, plus your learning attitude.</li>
+<li><b>Where do you see yourself in 5 years?</b> Growing into a strong engineer or lead within the company, deep in one area such as cloud, data or AI.</li>
+<li><b>Higher studies plans?</b> Focus on building industry experience now.</li>
+<li><b>Bond, relocation, shifts, any technology?</b> Yes, comfortable and flexible.</li>
+<li><b>Gap or low marks?</b> Be honest and brief, then say what you did or learned since.</li>
+<li><b>Other offers?</b> Be honest, and say Capgemini is a strong preference.</li>
+<li><b>Salary expectations (freshers)</b>: "As per company standards for this role."</li></ul></div>
+
+<div class="card"><h3>Know the company</h3><ul>
+<li>Founded in 1967 by Serge Kampf in Grenoble, France. Headquartered in Paris.</li>
+<li>Services: consulting, technology, engineering, outsourcing, cloud, data and AI, digital transformation.</li>
+<li>Key acquisitions: iGate (2015), Altran (2020, now Capgemini Engineering), WNS (2025).</li>
+<li>India is one of its largest employee bases.</li>
+<li>Values: Honesty, Boldness, Trust, Freedom, Team Spirit, Modesty, Fun.</li>
+<li>Check capgemini.com for current leadership and recent news the day before.</li></ul></div>
+
+<div class="card"><h3>Questions to ask them</h3><ul>
+<li>"What does training look like for new analysts in the first few months?"</li>
+<li>"Which technologies or domains do freshers usually get deployed on?"</li>
+<li>"How do teams here use AI tools in day-to-day delivery?"</li>
+<li>"What would make someone stand out in their first year?"</li></ul></div>
+</div>
+
 </section>
 
 <!-- ============ CHEAT SHEET ============ -->
