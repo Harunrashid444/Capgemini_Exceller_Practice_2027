@@ -504,6 +504,294 @@ a{color:var(--accent)}
 <li>SDLC, Agile: sprints, Scrum, daily stand-up. Testing: unit, integration, system, UAT.</li></ul></div>
 </div>
 
+<h2>Deep notes: pseudocode tracing</h2>
+<p class="lede">Output questions are the most common type in this section and the easiest to lose marks on. Use a trace table every time: one column per variable, one row per iteration.</p>
+<div class="grid2">
+<div class="card"><h3>Operator rules that decide answers</h3><ul>
+<li>Integer division truncates toward zero: <code>7/2 = 3</code>, <code>-7/2 = -3</code>.</li>
+<li><code>%</code> takes the sign of the dividend (C, Java): <code>-7 % 3 = -1</code>, <code>7 % -3 = 1</code>.</li>
+<li>Precedence: <code>* / %</code> → <code>+ -</code> → <code>&lt;&lt; &gt;&gt;</code> → comparisons → <code>==</code> → <code>&amp;</code> → <code>^</code> → <code>|</code> → <code>&amp;&amp;</code> → <code>||</code> → <code>?:</code> → <code>=</code>.</li>
+<li>Short-circuit: in <code>a &amp;&amp; b++</code>, if a is false, b++ never runs.</li>
+<li><code>x++</code> uses the value, then increments. <code>++x</code> increments, then uses it.</li>
+<li>Characters: <code>'A'=65</code>, <code>'a'=97</code>, <code>'0'=48</code>, <code>'a'-'A'=32</code>, <code>'7'-'0'=7</code>.</li>
+<li>C <code>static</code> locals keep their value between calls. Java and C pass primitives <b>by value</b>.</li>
+<li>Integer overflow wraps: <code>INT_MAX + 1</code> becomes negative.</li>
+<li>In C, any non-zero value is true. <code>if (x = 0)</code> is false and sets x to 0.</li></ul></div>
+
+<div class="card"><h3>Bit tricks</h3>
+<div class="tbl" style="border:none"><table>
+<tr><td><code>x &amp; 1</code></td><td>1 if odd</td></tr>
+<tr><td><code>x &lt;&lt; k</code></td><td>x × 2ᵏ</td></tr>
+<tr><td><code>x &gt;&gt; k</code></td><td>x ÷ 2ᵏ (non-negative x)</td></tr>
+<tr><td><code>x &amp; (x-1)</code></td><td>clears the lowest set bit</td></tr>
+<tr><td><code>x &gt; 0 &amp;&amp; (x &amp; (x-1)) == 0</code></td><td>x is a power of 2</td></tr>
+<tr><td><code>a ^ a = 0</code>, <code>a ^ 0 = a</code></td><td>XOR finds the unique element</td></tr>
+<tr><td><code>~x</code></td><td>−x − 1</td></tr>
+<tr><td>8-bit signed range</td><td>−128 to 127 (two's complement)</td></tr>
+</table></div></div>
+
+<div class="card"><h3>Loop-count formulas</h3><ul>
+<li><code>for i=1..n</code>, <code>for j=1..i</code>: n(n+1)/2 iterations. Same for <code>j=i..n</code>.</li>
+<li><code>for i=1..n</code>, <code>for j=1..n</code>: n² iterations.</li>
+<li><code>i = i*2</code> until n: about ⌊log₂n⌋ + 1 iterations.</li>
+<li><code>while n &gt; 0: n = n/10</code>: number of digits.</li>
+<li><code>for i = a to b step s</code>: ⌊(b − a)/s⌋ + 1 iterations.</li>
+<li>Check the <b>exit value</b> too. After <code>for(i=0;i&lt;5;i++)</code>, i is 5.</li></ul></div>
+
+<div class="card"><h3>Recognise the function in 5 seconds</h3><ul>
+<li><code>n%10</code> + <code>n/10</code> → digit work (sum, reverse, palindrome number, Armstrong).</li>
+<li><code>r = r*10 + n%10</code> → reverses the number.</li>
+<li><code>gcd(b, a%b)</code> → GCD. <code>a*b/gcd</code> → LCM.</li>
+<li><code>f(n-1)+f(n-2)</code> → Fibonacci. Naive fib(5) makes <b>15 calls</b>.</li>
+<li><code>n%2</code> then <code>n/2</code> → binary conversion (digits come out reversed).</li>
+<li><code>x * f(x, n-1)</code> → power. <code>n * f(n-1)</code> → factorial.</li>
+<li>Recursion that prints <b>after</b> the recursive call prints in reverse order.</li></ul></div>
+</div>
+
+<h2>Deep notes: DSA</h2>
+<div class="tbl tight"><table>
+<thead><tr><th>Sort</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable</th></tr></thead>
+<tbody>
+<tr><td>Bubble</td><td class="num">O(n)*</td><td class="num">O(n²)</td><td class="num">O(n²)</td><td class="num">O(1)</td><td>Yes</td></tr>
+<tr><td>Selection</td><td class="num">O(n²)</td><td class="num">O(n²)</td><td class="num">O(n²)</td><td class="num">O(1)</td><td>No</td></tr>
+<tr><td>Insertion</td><td class="num">O(n)</td><td class="num">O(n²)</td><td class="num">O(n²)</td><td class="num">O(1)</td><td>Yes</td></tr>
+<tr><td>Merge</td><td class="num">O(n log n)</td><td class="num">O(n log n)</td><td class="num">O(n log n)</td><td class="num">O(n)</td><td>Yes</td></tr>
+<tr><td>Quick</td><td class="num">O(n log n)</td><td class="num">O(n log n)</td><td class="num">O(n²)</td><td class="num">O(log n)</td><td>No</td></tr>
+<tr><td>Heap</td><td class="num">O(n log n)</td><td class="num">O(n log n)</td><td class="num">O(n log n)</td><td class="num">O(1)</td><td>No</td></tr>
+<tr><td>Counting</td><td class="num">O(n+k)</td><td class="num">O(n+k)</td><td class="num">O(n+k)</td><td class="num">O(k)</td><td>Yes</td></tr>
+</tbody></table></div>
+<p style="font-size:13px;color:var(--muted)">* with an early-exit flag when a pass makes no swaps. Selection sort makes the fewest swaps (at most n−1).</p>
+
+<div class="grid2">
+<div class="card"><h3>Operation costs</h3>
+<div class="tbl" style="border:none"><table>
+<tr><td>Array: access / search / insert in middle</td><td class="num">O(1) / O(n) / O(n)</td></tr>
+<tr><td>Linked list: access / insert at head</td><td class="num">O(n) / O(1)</td></tr>
+<tr><td>Stack, queue: push / pop</td><td class="num">O(1)</td></tr>
+<tr><td>Hash map: average / worst</td><td class="num">O(1) / O(n)</td></tr>
+<tr><td>Balanced BST: search / insert</td><td class="num">O(log n)</td></tr>
+<tr><td>Skewed BST: worst case</td><td class="num">O(n)</td></tr>
+<tr><td>Heap: insert / peek min / extract min</td><td class="num">O(log n) / O(1) / O(log n)</td></tr>
+</table></div></div>
+
+<div class="card"><h3>Trees and graphs facts</h3><ul>
+<li>Preorder: Root-L-R. Inorder: L-Root-R (sorted for a BST). Postorder: L-R-Root. Level order uses a queue.</li>
+<li>Heap stored in an array: children of i are <code>2i+1</code> and <code>2i+2</code>, parent is <code>(i-1)/2</code>.</li>
+<li>A complete graph with n vertices has n(n−1)/2 edges. A tree has n−1 edges.</li>
+<li>BFS gives the shortest path in an <b>unweighted</b> graph. <b>Dijkstra</b> needs non-negative weights. <b>Bellman-Ford</b> handles negative weights.</li>
+<li>Topological sort works only on a DAG. MST algorithms: Kruskal (sort edges, union-find) and Prim.</li>
+<li>Graph storage: adjacency matrix O(V²) space, adjacency list O(V+E).</li>
+<li>Prefix, infix and postfix expressions are evaluated with a stack.</li></ul></div>
+</div>
+
+<h2>Deep notes: OOP and languages</h2>
+<div class="grid2">
+<div class="card"><h3>Java access modifiers</h3>
+<div class="tbl" style="border:none"><table>
+<thead><tr><th></th><th>Class</th><th>Package</th><th>Subclass</th><th>World</th></tr></thead>
+<tr><td>private</td><td>✓</td><td>✗</td><td>✗</td><td>✗</td></tr>
+<tr><td>default</td><td>✓</td><td>✓</td><td>✗*</td><td>✗</td></tr>
+<tr><td>protected</td><td>✓</td><td>✓</td><td>✓</td><td>✗</td></tr>
+<tr><td>public</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td></tr>
+</table></div>
+<p style="font-size:12.5px;color:var(--muted);margin:4px 0 0">* only subclasses in the same package.</p></div>
+
+<div class="card"><h3>Java facts that turn into MCQs</h3><ul>
+<li>Constructors aren't inherited. <code>super()</code> must be the first statement.</li>
+<li>You can't overload by return type alone. Static methods are <b>hidden</b>, not overridden.</li>
+<li>Checked exceptions (IOException, SQLException) must be caught or declared. Unchecked ones (NullPointer, Arithmetic, ArrayIndexOutOfBounds) don't need to be.</li>
+<li><code>finally</code> always runs, except after <code>System.exit()</code>.</li>
+<li>String is immutable. StringBuilder is fast and not thread-safe. StringBuffer is synchronised.</li>
+<li>ArrayList: fast random access. LinkedList: fast insert and delete at the ends.</li>
+<li>HashMap: no order. LinkedHashMap: insertion order. TreeMap: sorted keys. HashSet: no duplicates.</li>
+<li>An interface can have <code>default</code> and <code>static</code> methods (Java 8+). Its fields are <code>public static final</code>.</li></ul></div>
+
+<div class="card"><h3>C / C++ facts</h3><ul>
+<li><code>sizeof(char)=1</code>. <code>int</code> is usually 4 bytes. A pointer is 8 bytes on 64-bit.</li>
+<li>An array name decays to a pointer to its first element. <code>a[i] == *(a+i)</code>.</li>
+<li>Strings end with <code>'\0'</code>. <code>strlen</code> doesn't count it.</li>
+<li>C uses <code>malloc/free</code>. C++ uses <code>new/delete</code>. A missing free causes a memory leak.</li>
+<li><code>virtual</code> functions give runtime polymorphism. A pure virtual function (<code>= 0</code>) makes the class abstract.</li>
+<li>In a <code>struct</code> members are public by default. In a <code>class</code> they're private by default.</li>
+<li>References can't be null or reseated. Pointers can.</li></ul></div>
+
+<div class="card"><h3>SOLID, briefly</h3><ul>
+<li><b>S</b>ingle responsibility: one reason to change.</li>
+<li><b>O</b>pen/closed: extend without modifying.</li>
+<li><b>L</b>iskov: a subclass must be usable wherever the parent is.</li>
+<li><b>I</b>nterface segregation: small, focused interfaces.</li>
+<li><b>D</b>ependency inversion: depend on abstractions.</li></ul></div>
+</div>
+
+<h2>Deep notes: DBMS and SQL</h2>
+<div class="grid2">
+<div class="card"><h3>Execution order</h3>
+<p style="margin:4px 0"><code>FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT</code></p>
+<p style="margin:4px 0;font-size:14px">That's why a SELECT alias can't be used in WHERE but can be used in ORDER BY.</p>
+<h3 style="margin-top:10px">Command families</h3><ul>
+<li><b>DDL</b>: CREATE, ALTER, DROP, TRUNCATE</li>
+<li><b>DML</b>: INSERT, UPDATE, DELETE. <b>DQL</b>: SELECT</li>
+<li><b>DCL</b>: GRANT, REVOKE. <b>TCL</b>: COMMIT, ROLLBACK, SAVEPOINT</li></ul></div>
+
+<div class="card"><h3>Keys and constraints</h3><ul>
+<li><b>Super key</b>: any set of columns that identifies a row uniquely.</li>
+<li><b>Candidate key</b>: a minimal super key. <b>Primary key</b>: the chosen candidate key. <b>Alternate key</b>: the remaining candidate keys.</li>
+<li><b>Foreign key</b>: references another table's primary key, enforcing referential integrity.</li>
+<li>Constraints: NOT NULL, UNIQUE (allows NULLs), CHECK, DEFAULT.</li>
+<li><code>NULL = NULL</code> is unknown. Use <code>IS NULL</code>.</li>
+<li>LIKE: <code>%</code> matches any number of characters, <code>_</code> matches exactly one.</li>
+<li>UNION removes duplicates. UNION ALL keeps them and is faster.</li></ul></div>
+
+<div class="card"><h3>Transactions</h3><ul>
+<li>Concurrency problems: <b>dirty read</b> (reading uncommitted data), <b>non-repeatable read</b> (a row changed between reads), <b>phantom read</b> (new rows appear).</li>
+<li>Isolation levels: Read Uncommitted &lt; Read Committed &lt; Repeatable Read &lt; Serializable.</li>
+<li>Index: faster reads, slower writes, uses extra space.</li>
+<li>View: a virtual table defined by a saved query.</li>
+<li>Normal forms: 1NF atomic values. 2NF no partial dependency on part of a composite key. 3NF no non-key depending on another non-key. BCNF every determinant is a candidate key.</li></ul></div>
+</div>
+<pre>-- Nth highest salary (here N = 3)
+SELECT DISTINCT salary FROM emp ORDER BY salary DESC LIMIT 1 OFFSET 2;
+SELECT salary FROM (SELECT salary, DENSE_RANK() OVER (ORDER BY salary DESC) AS r FROM emp) t WHERE r = 3;
+
+-- Departments with more than 5 employees
+SELECT dept_id, COUNT(*) FROM emp GROUP BY dept_id HAVING COUNT(*) &gt; 5;
+
+-- Employees earning more than their manager (self join)
+SELECT e.name FROM emp e JOIN emp m ON e.manager_id = m.id WHERE e.salary &gt; m.salary;
+
+-- Duplicate emails
+SELECT email, COUNT(*) FROM users GROUP BY email HAVING COUNT(*) &gt; 1;
+
+-- Employees with no department (anti-join)
+SELECT e.name FROM emp e LEFT JOIN dept d ON e.dept_id = d.id WHERE d.id IS NULL;</pre>
+
+<h2>Deep notes: OS and networks</h2>
+<div class="grid2">
+<div class="card"><h3>CPU scheduling</h3><ul>
+<li><b>FCFS</b>: simple. Suffers the <i>convoy effect</i>, where short jobs wait behind a long one.</li>
+<li><b>SJF</b>: gives the minimum average waiting time, but long jobs can <i>starve</i>.</li>
+<li><b>Round Robin</b>: time quantum, fair, good for time-sharing. A tiny quantum means too many context switches.</li>
+<li><b>Priority</b>: can starve low-priority jobs. The fix is <b>aging</b>.</li>
+<li>Turnaround time = completion − arrival. Waiting time = turnaround − burst.</li>
+<li>Process states: New → Ready → Running → Waiting → Terminated.</li></ul></div>
+
+<div class="card"><h3>Memory</h3><ul>
+<li><b>Paging</b>: fixed-size pages, no external fragmentation (some internal). <b>Segmentation</b>: variable-size logical segments.</li>
+<li><b>Virtual memory</b>: run programs larger than RAM. A <b>page fault</b> happens when a page isn't in memory.</li>
+<li><b>TLB</b>: a cache for page-table lookups.</li>
+<li>Page replacement: FIFO, LRU, Optimal (the theoretical best). <b>Belady's anomaly</b>: with FIFO, more frames can cause more faults.</li>
+<li><b>Thrashing</b>: so much paging that the CPU sits idle.</li></ul></div>
+
+<div class="card"><h3>Synchronisation and deadlock</h3><ul>
+<li><b>Critical section</b> needs mutual exclusion, progress and bounded waiting.</li>
+<li><b>Mutex</b>: a lock with an owner. <b>Semaphore</b>: a counter, either binary or counting.</li>
+<li>Classic problems: producer-consumer, readers-writers, dining philosophers.</li>
+<li>Deadlock handling: <b>prevention</b> (break one of the four conditions), <b>avoidance</b> (Banker's algorithm), <b>detection and recovery</b>.</li></ul></div>
+
+<div class="card"><h3>OSI layers</h3>
+<div class="tbl" style="border:none"><table>
+<tr><td>7 Application</td><td>HTTP, FTP, SMTP, DNS</td></tr>
+<tr><td>6 Presentation</td><td>Encryption, encoding, compression</td></tr>
+<tr><td>5 Session</td><td>Session setup and teardown</td></tr>
+<tr><td>4 Transport</td><td>TCP, UDP · segments</td></tr>
+<tr><td>3 Network</td><td>IP, ICMP · packets · router</td></tr>
+<tr><td>2 Data Link</td><td>MAC, Ethernet · frames · switch</td></tr>
+<tr><td>1 Physical</td><td>Bits, cables · hub</td></tr>
+</table></div></div>
+
+<div class="card"><h3>Ports and addresses</h3><ul>
+<li>FTP 20/21 · SSH 22 · Telnet 23 · SMTP 25 · DNS 53 · DHCP 67/68 · HTTP 80 · POP3 110 · IMAP 143 · HTTPS 443 · MySQL 3306 · RDP 3389</li>
+<li>IPv4 is 32-bit, IPv6 is 128-bit, a MAC address is 48-bit.</li>
+<li>Private IPv4 ranges: 10.x.x.x, 172.16–31.x.x, 192.168.x.x.</li>
+<li>A /24 subnet has 256 addresses and 254 usable hosts.</li>
+<li>TCP 3-way handshake: SYN → SYN-ACK → ACK.</li></ul></div>
+
+<div class="card"><h3>Typing a URL: what happens</h3><ol style="padding-left:18px;margin:6px 0">
+<li>DNS resolves the domain to an IP (browser cache, OS, resolver, root, TLD, authoritative server).</li>
+<li>TCP handshake, then a TLS handshake for HTTPS.</li>
+<li>The browser sends an HTTP request and the server responds.</li>
+<li>The browser parses HTML, fetches CSS and JS, and renders the page.</li></ol></div>
+</div>
+
+<h2>Deep notes: software engineering, cloud, security</h2>
+<div class="grid2">
+<div class="card"><h3>SDLC and Agile</h3><ul>
+<li><b>Waterfall</b>: sequential, fixed requirements. <b>V-model</b>: a test phase for each development phase. <b>Spiral</b>: risk-driven. <b>Agile</b>: iterative and incremental.</li>
+<li>Scrum roles: Product Owner, Scrum Master, Development Team.</li>
+<li>Scrum artifacts: Product Backlog, Sprint Backlog, Increment.</li>
+<li>Scrum events: Sprint Planning, Daily Stand-up, Sprint Review, Retrospective.</li></ul></div>
+
+<div class="card"><h3>Testing</h3><ul>
+<li>Levels: Unit → Integration → System → Acceptance (UAT).</li>
+<li><b>Black-box</b>: tests behaviour without seeing code. <b>White-box</b>: tests internal paths.</li>
+<li><b>Smoke</b>: is the build basically working? <b>Sanity</b>: a quick check of a specific fix. <b>Regression</b>: did the change break anything that worked?</li>
+<li>Boundary value analysis, equivalence partitioning.</li>
+<li>Verification asks "built it right?" Validation asks "built the right thing?"</li></ul></div>
+
+<div class="card"><h3>DevOps and cloud</h3><ul>
+<li><b>CI</b>: integrate and test on every commit. <b>CD</b>: automatically deliver or deploy.</li>
+<li><b>Container</b> (Docker) shares the host OS kernel, so it's lightweight. A <b>VM</b> has a full guest OS. <b>Kubernetes</b> orchestrates containers.</li>
+<li><b>Microservices</b>: small services deployed independently. <b>Monolith</b>: one deployable unit.</li>
+<li>Service models: IaaS (EC2), PaaS (App Engine, Heroku), SaaS (Gmail, Salesforce). Serverless: AWS Lambda.</li>
+<li>Deployment models: public, private, hybrid, multi-cloud.</li>
+<li>Scaling: vertical means a bigger machine, horizontal means more machines.</li></ul></div>
+
+<div class="card"><h3>Security</h3><ul>
+<li><b>CIA triad</b>: Confidentiality, Integrity, Availability.</li>
+<li><b>Symmetric</b> encryption (AES) uses one key. <b>Asymmetric</b> (RSA) uses a public/private key pair. <b>Hashing</b> (SHA-256) is one-way, used for passwords with a salt.</li>
+<li><b>SQL injection</b>: prevent with parameterised queries. <b>XSS</b>: prevent with output encoding. <b>CSRF</b>: prevent with tokens.</li>
+<li><b>Phishing</b>: fake messages that steal credentials. <b>MFA</b>: multiple authentication factors.</li>
+<li><b>OAuth</b> grants authorisation. <b>JWT</b> is a signed token that carries claims.</li>
+<li>A DDoS attack overwhelms a service with traffic.</li></ul></div>
+</div>
+
+<h2>Deep notes: reasoning and quant formulas</h2>
+<div class="grid2">
+<div class="card"><h3>Number series checklist</h3><ol style="padding-left:18px;margin:6px 0">
+<li>Differences (and differences of differences)</li>
+<li>Ratios (×2, ×3, ÷2)</li>
+<li>Squares, cubes, primes: n², n²±1, n³</li>
+<li>Mixed rules: ×k + c, ×1 +1, ×2 +2…</li>
+<li>Alternating: two series interleaved</li>
+<li>n(n+1): 2, 6, 12, 20, 30, 42</li></ol></div>
+
+<div class="card"><h3>Coding-decoding</h3><ul>
+<li>Positions: A=1 … Z=26. Remember <b>EJOTY</b> = 5, 10, 15, 20, 25.</li>
+<li>Opposite letter: the pair sums to 27 (A↔Z, M↔N).</li>
+<li>Check for: shift by +k, reversed letters, opposites, positions summed or multiplied.</li></ul>
+<h3 style="margin-top:10px">Directions</h3><ul>
+<li>Facing North, a right turn faces East and a left turn faces West.</li>
+<li>Shadows: in the morning the sun is East, so shadows fall West. In the evening, shadows fall East.</li>
+<li>Distance from start: Pythagoras on the net N-S and E-W displacement.</li></ul></div>
+
+<div class="card"><h3>Syllogisms</h3><ul>
+<li>All A are B + All B are C → All A are C.</li>
+<li>All A are B → Some A are B, and Some B are A (never "All B are A").</li>
+<li>Some A are B → Some B are A. No A is B → No B is A.</li>
+<li>Two "some" premises → no definite conclusion.</li>
+<li>"Some A are not B" can't be converted.</li>
+<li><b>Either-or</b>: when two conclusions are complementary ("Some A are B" / "No A is B") and neither follows on its own.</li>
+<li>Draw Venn circles. A conclusion follows only if it's true in <b>every</b> possible diagram.</li></ul></div>
+
+<div class="card"><h3>Blood relations, clocks, calendars</h3><ul>
+<li>Draw a family tree: + male, − female, = couple, a vertical line for generations.</li>
+<li>Clock angle = |30H − 5.5M|. If it's over 180°, use 360° minus it.</li>
+<li>The hands coincide every 65 5/11 minutes, which is 22 times a day.</li>
+<li>Odd days: a normal year has 1, a leap year 2. 100 years = 5, 200 = 3, 300 = 1, 400 = 0.</li>
+<li>Leap year: divisible by 4 and not by 100, or divisible by 400.</li></ul></div>
+
+<div class="card"><h3>Quant must-knows</h3><ul>
+<li>Successive % change: a + b + ab/100. So +20 then −20 gives −4%.</li>
+<li>Profit % = profit / CP × 100. Discount is calculated on the marked price.</li>
+<li>SI = P·R·T/100. CI amount = P(1 + R/100)ᵀ.</li>
+<li>km/h to m/s: multiply by 5/18. Train passing a pole: L/s. Passing a platform: (L₁+L₂)/s.</li>
+<li>Relative speed: subtract if same direction, add if opposite.</li>
+<li>Work: A takes a days, so does 1/a per day. Together: 1/a + 1/b.</li>
+<li>HCF × LCM = a × b (for two numbers).</li>
+<li>nPr = n!/(n−r)!. nCr = n!/(r!(n−r)!).</li>
+<li>Two dice: 36 outcomes. P(sum = 7) = 6/36 = 1/6.</li></ul></div>
+</div>
+
 <h2>Practice questions</h2>
 <div class="filters" id="techFilters"></div>
 <div data-quiz-host="TECH"></div>
