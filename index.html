@@ -1033,6 +1033,83 @@ After the code, list the test cases you would run with expected outputs.</pre>
 <li>Inventing methods that don't exist</li></ul></div>
 </div>
 
+<h2>Deep notes: what the examiner sees</h2>
+<p class="lede">Your chat with the assistant is the evidence. Each scoring area maps to visible behaviour.</p>
+<div class="tbl tight"><table>
+<thead><tr><th>Scored on</th><th>What it looks like in your chat</th><th>Do this</th></tr></thead>
+<tbody>
+<tr><td><b>Problem solving</b></td><td>You state the approach and complexity before any code exists</td><td>"Use a HashMap of value→index, single pass, O(n)."</td></tr>
+<tr><td><b>Prompt quality</b></td><td>One complete, structured prompt rather than many vague ones</td><td>Language, I/O format, constraints, approach, edge cases, output requirements</td></tr>
+<tr><td><b>AI literacy</b></td><td>You use the AI for the right jobs and don't trust it blindly</td><td>Ask it to explain, generate tests and review. Spot its mistakes</td></tr>
+<tr><td><b>Review and adaptation</b></td><td>You catch a bug, describe it precisely and get a targeted fix</td><td>"Input [] crashes at line 4. Add a guard returning -1. Change nothing else."</td></tr>
+</tbody></table></div>
+
+<div class="grid2" style="margin-top:16px">
+<div class="card"><h3>45-minute plan</h3><ul>
+<li><b>0–5</b>: read the problem, note the I/O, constraints and edge cases, choose an approach.</li>
+<li><b>5–10</b>: write one structured prompt.</li>
+<li><b>10–18</b>: read every line of the generated code and check it against your approach.</li>
+<li><b>18–30</b>: run the samples and edge cases. Make targeted fix prompts.</li>
+<li><b>30–38</b>: ask for an explanation of the complexity and extra tests. Clean up the code.</li>
+<li><b>38–45</b>: final run, check the output format, submit. Don't start big changes now.</li></ul></div>
+
+<div class="card"><h3>Review checklist for AI code</h3><ol style="padding-left:18px;margin:6px 0">
+<li>Does it use <b>my</b> approach and complexity?</li>
+<li>Does it read input in the <b>exact</b> format?</li>
+<li>Does it print output in the <b>exact</b> format (spaces, newlines, case)?</li>
+<li>Empty, single and duplicate inputs?</li>
+<li>Negative numbers and zero?</li>
+<li>Overflow (int → long)?</li>
+<li>Loop bounds: off by one?</li>
+<li>Do all the methods and classes it uses actually exist?</li>
+<li>Does it mutate input it shouldn't?</li>
+<li>No leftover debug prints?</li></ol></div>
+
+<div class="card"><h3>When the AI is wrong or stuck</h3><ul>
+<li>Give it the <b>failing input, expected output and actual output</b>.</li>
+<li>Ask it to <b>trace</b> the failing input step by step. It usually finds its own bug.</li>
+<li>Constrain it: "Change only the loop condition."</li>
+<li>If it keeps failing, fix the line yourself and tell it what you changed. Hand edits are fine and show understanding.</li>
+<li>Don't regenerate from scratch repeatedly. It looks like trial and error.</li>
+<li>If prompts or tokens are limited, make your first prompt complete.</li></ul></div>
+</div>
+
+<h3 style="margin-top:22px">Prompt pattern library</h3>
+<div class="tbl tight"><table>
+<thead><tr><th>Goal</th><th>Prompt</th></tr></thead>
+<tbody>
+<tr><td>Understand the problem</td><td>"Restate this problem in your own words and list its edge cases. Don't write code yet."</td></tr>
+<tr><td>Compare approaches</td><td>"Give two approaches with their time and space complexity. I'll pick one."</td></tr>
+<tr><td>Implement</td><td>Use the template above, with your approach included.</td></tr>
+<tr><td>Explain code</td><td>"Explain this function line by line and state its complexity."</td></tr>
+<tr><td>Generate tests</td><td>"Give 6 test cases (normal, edge, boundary) with expected outputs as a table."</td></tr>
+<tr><td>Targeted fix</td><td>"For input X it prints Y but should print Z. Find the cause and give the minimal fix."</td></tr>
+<tr><td>Trace</td><td>"Trace the code on input X and show the variable values after each iteration."</td></tr>
+<tr><td>Optimise</td><td>"This is O(n²). Rewrite it to O(n) using a HashMap and keep the same I/O."</td></tr>
+<tr><td>Harden</td><td>"Add input validation for empty input and negative k. Change nothing else."</td></tr>
+<tr><td>Add a feature</td><td>"Add an optional owner filter. Keep existing behaviour identical when it's null, and add regression tests."</td></tr>
+</tbody></table></div>
+
+<h3 style="margin-top:22px">What a strong session looks like</h3>
+<pre>YOU: Problem: count pairs (i&lt;j) in an integer array whose sum equals K.
+     Input: first line n and K, second line n integers. Output: one integer.
+     Constraints: n up to 10^5, values may be negative.
+     My approach: single pass with a HashMap of value -&gt; frequency seen so far;
+     for each x add freq[K-x] to the answer, then increment freq[x]. O(n) time.
+     Use long for the answer. Edge cases: n=0, all equal values, negatives.
+     Write a complete Java program reading stdin, with brief comments.
+
+AI:  [code]
+
+YOU: Reviewed. Input "4 4 / 2 2 2 2" should give 6. Your code prints 10:
+     you look up freq[K-x] AFTER incrementing freq[x], so each element pairs with itself.
+     Move the increment after the lookup. Change nothing else.
+
+AI:  [fixed code]
+
+YOU: All my tests pass: [2 2 2 2]-&gt;6, [1 5 7 -1]-&gt;2 with K=6, n=0 -&gt;0.
+     Explain the time and space complexity in two lines.</pre>
+
 <h2>Practice tasks</h2>
 <p class="lede" style="margin-bottom:6px">Do each one in ChatGPT, Claude or Copilot exactly as you would in the exam: approach first, structured prompt, review, test, targeted fix. Then compare with the reference solution.</p>
 <div id="taskHost"></div>
